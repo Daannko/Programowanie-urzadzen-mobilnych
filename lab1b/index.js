@@ -1,7 +1,4 @@
 
-
-
-
 var i = 0;
 var i2 = 1;
 var i3 = 0;

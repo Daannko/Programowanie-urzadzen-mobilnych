@@ -6,6 +6,7 @@ var i = 0;
 var i2 = 1;
 var i3 = 0;
 var flag = 1;
+var flag2 = 0
 function changeFirst() {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
@@ -24,7 +25,15 @@ function changeSecond() {
     var ctx = c.getContext("2d");
     ctx.beginPath();
 
-    i2 = (i2 + 1) % 255
+    if(flag2){
+        i2 = i2 + 1;
+    }
+    else{
+        i2 = i2 - 1 ;
+    }
+    if(i2 == 255 || i2 == 0) {
+        flag2 = !flag2
+    }
 
     ctx.fillStyle = `rgb(0,${i2},${255 - i2})`;
     ctx.arc(250, 300, 50, 0, 2 * Math.PI);
@@ -42,13 +51,11 @@ function changeThird() {
 
    
     if(flag){
-        i3 = i3 + 50;
+        i3 = i3 + 10;
     }
     else{
-        i3 = i3 - 50;
+        i3 = i3 - 10 ;
     }
-
-    
     if(i3 == 500 || i3 == 0) {
         flag = !flag
     }
@@ -60,4 +67,4 @@ function changeThird() {
 
 setInterval(changeSecond, 10);
 setInterval(changeFirst, 1000);
-setInterval(changeThird, 100);
+setInterval(changeThird, 10);
