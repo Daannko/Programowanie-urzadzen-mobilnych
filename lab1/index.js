@@ -1,18 +1,27 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-var color = ["green", "blue"];
-ctx.beginPath();
 
 
-var i = 0;
+var i = 1;
 function change() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.fillStyle = color[i];
-    i = (i + 1) % color.length;
+
+    ctx.beginPath();
+    i = (i + 0.1) % 1;
+    
+    var grad = ctx.createLinearGradient(0,0,i,0);
+
+
+    grad.addColorStop(0,"blue");
+    grad.addColorStop(1,"red");
+
+    ctx.fillStyle = grad;
 
     ctx.arc(400, 300, 100, 0, 2 * Math.PI);
-    ctx.fill();
+    ctx.arc(100, 300, 100, 0, 2 * Math.PI);
+    
+    ctx.globalAlpha = i
+    ctx.fillStyle(rgba(255, 255, 255, i));
+
 }
 
-setInterval(change, 1000);
+setInterval(change, 10);
