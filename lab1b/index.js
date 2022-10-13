@@ -33,6 +33,7 @@ function changeSecond() {
     }
     if(i2 == 255 || i2 == 0) {
         flag2 = !flag2
+        
     }
 
     ctx.fillStyle = `rgb(0,${i2},${255 - i2})`;
