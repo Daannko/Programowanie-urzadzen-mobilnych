@@ -6,8 +6,7 @@ var timer = 0;
 var x = 50;
 var y = 70;
 
-
-setInterval(drawS, 10);
+setInterval(drawS,10);
 setInterval(drawB,10)
 
 function drawS(){
@@ -32,7 +31,6 @@ function drawS(){
         ctx.rect(400,500,100,c.height - 500);
     }
     
-
     ctx.strokeStyle = "black";
     ctx.stroke();
     timer += 1;
