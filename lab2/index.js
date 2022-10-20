@@ -5,6 +5,7 @@ var ctx = c.getContext("2d");
 var timer = 0;
 var x =30 ;
 var y = 70;
+var flag = 0;
 
 setInterval(drawS,10);
 setInterval(drawB,10)
@@ -52,12 +53,25 @@ function drawB(){
     console.log(" x2= " +x2)
     console.log(" maxy= "  + maxy)
     if( timer > 550){
-        if(x < 770)
-        x =  x + valuex;
+        if(x == 770 && flag != 0)
+            flag = -1;
+        else if(x ==530)
+            flag = 1;
+        
+        if(flag == -1){
+            x =  x - valuex;
+        }
+        else{
+            x =  x + valuex;
+        }
+        
+        
+
 
         if(y < maxy && y < 570)
         y =  y + valuey ;
     }
+
 
     ctx.arc(x, y, 30, 0, Math.PI*2);
     ctx.fill();
