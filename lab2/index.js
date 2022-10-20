@@ -64,10 +64,7 @@ function drawB(){
         else{
             x =  x + valuex;
         }
-        
-        
-
-
+    
         if(y < maxy && y < 570)
         y =  y + valuey ;
     }
