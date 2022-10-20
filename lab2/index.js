@@ -34,12 +34,11 @@ function drawS(){
     ctx.strokeStyle = "black";
     ctx.stroke();
     timer += 1;
- 
 }
 
 function drawB(){
 
-    if(timer < 1200){
+    if(timer < 1300){
         return;
     }
 
