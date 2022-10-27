@@ -1,77 +1,79 @@
+const cvs = document.getElementById("myCanvas");
+const c = cvs.getContext('2d');
 
-var c = document.getElementById("myCanvas");
-c.style.border = "1px solid black";
-var ctx = c.getContext("2d");
-var timer = 0;
-var x =30 ;
-var y = 70;
-var flag = 0;
+cvs.width = 800 
+cvs.height = 600
 
-setInterval(drawS,10);
-setInterval(drawB,10)
+class Player{
 
-function drawS(){
-
-    ctx.beginPath();
-
-    ctx.clearRect(0, 0, 800,600);
-
-    if(timer >= 0){
-     ctx.rect(0,100,100,c.height - 100);
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+        this.width = 50;
+        this.height = 50;
     }
-    if(timer >= 100){
-        ctx.rect(100,200,100,c.height - 200);
-    }
-    if(timer >= 200){
-        ctx.rect(200,300,100,c.height - 300);
-    }
-    if(timer >= 300){
-        ctx.rect(300,400,100,c.height - 400);
-    }
-    if(timer >= 400){
-        ctx.rect(400,500,100,c.height - 500);
-    }
-    
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    timer += 1;
+
+    draw = () => {
+        console.log(objects[0].x+" "+ objects[0].y)
+        c.beginPath();
+        c.rect(this.x, this.y, 50,50);
+        c.fillStyle = "red";
+        c.fill();
+        c.stroke();
+      };
 }
 
-function drawB(){
+class Bullet{
 
-    if(timer < 500){
-        return;
+    constructor(x,y){
+        this.x = x;
+        this.y= y;
+        this.speed = 10;
     }
 
-    ctx.beginPath();
-       
-    var valuex = 5;
-    var valuey = 20;
-    var x2 = Math.floor((x - 20)/100)
-    var maxy =  x2 * 100 + 70
-    console.log(" x= " + x)
-    console.log(" x2= " +x2)
-    console.log(" maxy= "  + maxy)
-    if( timer > 550){
-        if(x == 770 && flag != 0)
-            flag = -1;
-        else if(x ==530)
-            flag = 1;
-        
-        if(flag == -1){
-            x =  x - valuex;
-        }
-        else{
-            x =  x + valuex;
-        }
-    
-        if(y < maxy && y < 570)
-        y =  y + valuey ;
-    }
-
-
-    ctx.arc(x, y, 30, 0, Math.PI*2);
-    ctx.fill();
-    console.log(timer);
-
+    draw = () => {
+        c.beginPath();
+        ctx.arc(this.x, this.y, 30, 0, Math.PI*2);
+        c.fillStyle = "red";
+        c.fill();
+        c.stroke();
+      };
 }
+
+let objects = [new Player(0, cvs.height -50 )];
+
+function check(e) {
+
+    console.log(e.keyCode)
+    var code = e.keyCode;
+    switch (code) {
+        case 37: 
+            if(objects[0].x - 1 >= 0)
+                objects[0].x = objects[0].x - 5;
+            break;
+        case 39: 
+            if(objects[0].x + 1 <= cvs.width - 50)
+                objects[0].x = objects[0].x + 5;
+            break;
+        default:
+            objects.concat(new Bullet(objects[0].x),100)
+    }
+    animate();
+}
+
+function update(){
+
+    
+
+
+
+
+
+    c.clearRect(0, 0, cvs.width, cvs.height);
+    objects.forEach(obj => {
+        obj.draw();
+    })
+}
+
+window.addEventListener('keydown',this.check,false);
+setInterval(update,100)
