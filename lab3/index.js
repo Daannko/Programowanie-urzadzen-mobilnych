@@ -29,6 +29,7 @@ class Bullet{
         this.x = x;
         this.y= y;
         this.speed = 10;
+        this.active = true;
     }
 
     draw = () => {
@@ -77,29 +78,36 @@ function check(e) {
             break;
         default:
             bullets.push(new Bullet(player.x + 25,player.y))
-            targers.push(new Target(player.x + 25, 30 ,20))
     }
+}
+
+
+function spawnTarger(){
+    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 20) + 10));
 }
 
 function update(){
 
     bullets.forEach(obj => {
-        obj.y = obj.y - dy;
-        targers.forEach(target => {
-            var a = obj.x - target.x;
-            var b = obj.y - target.y;
-            var c = Math.sqrt( a*a + b*b );
-
-            if(c < 10 + target.size)
-                target.active = false;
-        })
+        if(obj.active){
+            obj.y = obj.y - dy;
+            targers.forEach(target => {
+                var a = obj.x - target.x;
+                var b = obj.y - target.y;
+                var c = Math.sqrt( a*a + b*b );
+    
+                if((c < 10 + target.size))
+                    target.active = false;
+            })
+        }
     })
 
 
     c.clearRect(0, 0, cvs.width, cvs.height);
     player.draw();
     bullets.forEach(obj => {
-        obj.draw();
+        if(obj.active)
+            obj.draw();
     })
     targers.forEach(obj => {
         if(obj.active)
@@ -109,3 +117,4 @@ function update(){
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
+setInterval(spawnTarger,500)
