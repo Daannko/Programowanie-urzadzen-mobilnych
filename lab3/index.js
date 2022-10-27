@@ -77,14 +77,14 @@ function check(e) {
             if(player.x + 1 <= cvs.width - 50)
                 player.x = player.x + 5;
             break;
-        default:
+        case 32:
             bullets.push(new Bullet(player.x + 25,player.y))
     }
 }
 
 
 function spawnTarger(){
-    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 20) + 10));
+    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 25) + 20));
 }
 
 function update(){
@@ -121,7 +121,6 @@ function update(){
     })
 
     c.font = '20px serif';
-
 
     c.beginPath();
     c.fillStyle = "black";
