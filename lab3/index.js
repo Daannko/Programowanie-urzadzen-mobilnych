@@ -3,6 +3,7 @@ const c = cvs.getContext('2d');
 
 cvs.width = 800 
 cvs.height = 600
+var dy = 10;
 
 class Player{
 
@@ -33,14 +34,14 @@ class Bullet{
 
     draw = () => {
         c.beginPath();
-        ctx.arc(this.x, this.y, 30, 0, Math.PI*2);
+        c.arc(this.x, this.y, 10, 0, Math.PI*2);
         c.fillStyle = "red";
         c.fill();
         c.stroke();
       };
 }
 
-let objects = [new Player(0, cvs.height -50 )];
+var objects = [new Player(0, cvs.height -50 )];
 
 function check(e) {
 
@@ -56,18 +57,20 @@ function check(e) {
                 objects[0].x = objects[0].x + 5;
             break;
         default:
-            objects.concat(new Bullet(objects[0].x),100)
+            objects.push(new Bullet(objects[0].x + 25,objects[0].y))
+            console.log(objects)
     }
-    animate();
+    update();
 }
 
 function update(){
 
-    
-
-
-
-
+    objects.forEach(obj => {
+        console.log(obj == Bullet)
+        if(obj instanceof Bullet){
+            obj.y = obj.y - dy;
+        }
+    })
 
     c.clearRect(0, 0, cvs.width, cvs.height);
     objects.forEach(obj => {
