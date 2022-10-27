@@ -3,7 +3,7 @@ const c = cvs.getContext('2d');
 
 cvs.width = 800 
 cvs.height = 600
-var dy = 10;
+var dy = 5;
 
 class Player{
 
@@ -35,7 +35,7 @@ class Bullet{
     draw = () => {
         c.beginPath();
         c.arc(this.x, this.y, 10, 0, Math.PI*2);
-        c.fillStyle = "red";
+        c.fillStyle = "black";
         c.fill();
         c.stroke();
       };
@@ -60,7 +60,6 @@ function check(e) {
             objects.push(new Bullet(objects[0].x + 25,objects[0].y))
             console.log(objects)
     }
-    update();
 }
 
 function update(){
@@ -79,4 +78,4 @@ function update(){
 }
 
 window.addEventListener('keydown',this.check,false);
-setInterval(update,100)
+setInterval(update,10)
