@@ -12,6 +12,7 @@ class Player{
         this.y = y;
         this.width = 50;
         this.height = 50;
+        this.destroyedTargets = 0;
     }
     draw = () => {
         console.log(player.x+" "+ player.y)
@@ -92,12 +93,17 @@ function update(){
         if(obj.active){
             obj.y = obj.y - dy;
             targers.forEach(target => {
-                var a = obj.x - target.x;
-                var b = obj.y - target.y;
-                var c = Math.sqrt( a*a + b*b );
-    
-                if((c < 10 + target.size))
-                    target.active = false;
+                if( target.active){
+                    var a = obj.x - target.x;
+                    var b = obj.y - target.y;
+                    var c = Math.sqrt( a*a + b*b );
+                    if((c < 10 + target.size)){
+                        target.active = false;
+                        player.destroyedTargets = player.destroyedTargets + 1;
+                        console.log("PKT: " + player.destroyedTargets);
+                        obj.active = false;
+                    }
+                }
             })
         }
     })
@@ -113,8 +119,15 @@ function update(){
         if(obj.active)
             obj.draw();
     })
+
+    c.font = '20px serif';
+
+
+    c.beginPath();
+    c.fillStyle = "black";
+    c.fillText('Zestrzelone punkty: ' + player.destroyedTargets, 300, 350);
 }
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnTarger,500)
+setInterval(spawnTarger,2000)
