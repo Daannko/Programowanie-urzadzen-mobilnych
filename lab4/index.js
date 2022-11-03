@@ -5,6 +5,24 @@ cvs.width = 800
 cvs.height = 600
 var dy = 5;
 
+function check(e) {
+
+    console.log(e.keyCode)
+    var code = e.keyCode;
+    switch (code) {
+        case 37: 
+            if(player.x - 1 >= 100)
+                player.x = player.x - 10;
+            break;
+        case 39: 
+            if(player.x + 1 <= cvs.width - 150)
+                player.x = player.x + 10;
+            break;
+        case 32:
+            bullets.push(new Bullet(player.x + 25,player.y))
+    }
+}
+
 class Player{
     constructor(x,y){
         this.x = x;
@@ -41,7 +59,7 @@ class Line{
       };
 }
 
-var player = new Player(400,550)
+var player = new Player(400,500)
 var lines = []
 var colors = ["red","white"];
 function spawnLines(){
