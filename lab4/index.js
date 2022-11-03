@@ -59,9 +59,33 @@ class Line{
       };
 }
 
+class Block{
+    constructor(x,y,height,width,color){
+        this.x = x;
+        this.y= y;
+        this.color = color;
+        this.height = height;
+        this.width = width;
+    }
+
+    draw = () => {
+        c.beginPath();
+        c.rect(this.x, this.y, this.width,this.height);
+        c.fillStyle = this.color;
+        c.fill();
+        c.stroke();
+      };
+}
+
 var player = new Player(400,500)
 var lines = []
 var colors = ["red","white"];
+
+function spawnBlock()
+{
+    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 25) + 20));
+}
+
 function spawnLines(){
     for(let i = 0 ; i < 31; i++){
         lines.push(new Line(0,i * 19, 20, 100,colors[(i % 2)]));
