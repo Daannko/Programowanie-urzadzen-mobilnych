@@ -6,7 +6,6 @@ cvs.height = 600
 var dy = 5;
 
 class Player{
-
     constructor(x,y){
         this.x = x;
         this.y = y;
@@ -18,73 +17,41 @@ class Player{
         console.log(player.x+" "+ player.y)
         c.beginPath();
         c.rect(this.x, this.y, 50,50);
-        c.fillStyle = "red";
-        c.fill();
-        c.stroke();
-      };
-}
-
-class Bullet{
-
-    constructor(x,y){
-        this.x = x;
-        this.y= y;
-        this.speed = 10;
-        this.active = true;
-    }
-
-    draw = () => {
-        c.beginPath();
-        c.arc(this.x, this.y, 10, 0, Math.PI*2);
         c.fillStyle = "black";
         c.fill();
         c.stroke();
       };
 }
 
-class Target{
-    constructor(x,y,size){
+class Line{
+    constructor(x,y,height,width,color){
         this.x = x;
         this.y= y;
-        this.size = size;
-        this.active = true;
+        this.color = color;
+        this.height = height;
+        this.width = width;
     }
 
     draw = () => {
         c.beginPath();
-        c.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        c.fillStyle = "green";
+        c.rect(this.x, this.y, this.width,this.height);
+        c.fillStyle = this.color;
         c.fill();
         c.stroke();
       };
 }
 
-
-var player = new Player(0, cvs.height -50 )
-var bullets = [];
-var targers = [];
-
-function check(e) {
-
-    console.log(e.keyCode)
-    var code = e.keyCode;
-    switch (code) {
-        case 37: 
-            if(player.x - 1 >= 0)
-                player.x = player.x - 5;
-            break;
-        case 39: 
-            if(player.x + 1 <= cvs.width - 50)
-                player.x = player.x + 5;
-            break;
-        case 32:
-            bullets.push(new Bullet(player.x + 25,player.y))
+var player = new Player(400,550)
+var lines = []
+var colors = ["red","white"];
+function spawnLines(){
+    for(let i = 0 ; i < 31; i++){
+        lines.push(new Line(0,i * 19, 20, 100,colors[(i % 2)]));
+        lines.push(new Line(cvs.width - 100,i * 20, 20,100,colors[(i % 2)]));
     }
-}
-
-
-function spawnTarger(){
-    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 25) + 20));
+    for(let i = 0 ; i < 5; i++){
+        lines.push(new Line(350,i * 130,30,100 ,"white"));
+    }
 }
 
 function drawRoad(){
@@ -95,38 +62,23 @@ function drawRoad(){
     c.stroke();
 }
 
-var i = 0;
-var colors = ["red","white"];
-function drawBarier(start,end){
-    c.beginPath();
-    c.rect(100,start , 150 ,end);
-    c.rect(cvs.width - 200,start ,cvs.width - 250 ,end);
-    c.fillStyle = colors[i]
-    i = i++ % 2;
-    c.fill();
-    c.stroke();
-}
 
-function drawBariers(){
-    var heightB = cvs.hasAttribute / 20;
-    for(let j =0 ; j < heightB ; j ++)
-    {
-        console.log(j);
-        drawBarier(j * (heightB), (j * heightB) + 100);
-    }
-}
+
 function update(){
     c.clearRect(0, 0, cvs.width, cvs.height);
-      
     drawRoad();
-    drawBariers();
-
-
-    c.beginPath();
-    c.fillStyle = "black";
-    c.fillText('Zestrzelone punkty: ' + player.destroyedTargets, 300, 350);
+    lines.forEach(e => {
+        e.draw();
+        e.y = e.y + 5;
+        if(e.y > 600)
+        {
+            e.y = -e.height;
+        }
+    })
+    player.draw();
+    console.log(lines);
 }
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnTarger,2000)
+spawnLines();
