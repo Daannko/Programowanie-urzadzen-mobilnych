@@ -60,30 +60,30 @@ class Line{
 }
 
 class Block{
-    constructor(x,y,height,width,color){
+    constructor(x,y,color){
         this.x = x;
         this.y= y;
         this.color = color;
-        this.height = height;
-        this.width = width;
+
     }
 
     draw = () => {
         c.beginPath();
-        c.rect(this.x, this.y, this.width,this.height);
+        c.rect(this.x, this.y, 30,30);
         c.fillStyle = this.color;
         c.fill();
         c.stroke();
       };
 }
 
-var player = new Player(400,500)
-var lines = []
+var player = new Player(400,500);
+var lines = [];
+var blocks = [];
 var colors = ["red","white"];
 
 function spawnBlock()
 {
-    targers.push(new Target(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),Math.floor(Math.random() * 25) + 20));
+    blocks.push(new Block(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),"green"));
 }
 
 function spawnLines(){
@@ -117,10 +117,13 @@ function update(){
             e.y = -e.height;
         }
     })
+    blocks.forEach(e => {
+        e.draw();
+    })
     player.draw();
     console.log(lines);
 }
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-spawnLines();
+spawnLines(spawnBlock,200);
