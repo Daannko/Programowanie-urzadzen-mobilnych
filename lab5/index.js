@@ -32,12 +32,45 @@ class Player{
         this.destroyedTargets = 0;
     }
     draw = () => {
+
+
+  
+
         console.log(player.x+" "+ player.y)
         c.beginPath();
-        c.rect(this.x, this.y, 50,50);
+        c.rect(this.x, this.y, 50,75);
+        c.fillStyle = "red";
+        c.fill();
+        c.stroke();
+
+        c.beginPath();
+        c.arc(this.x - 5, this. y + 15, 15, 0, 2 * Math.PI);
         c.fillStyle = "black";
         c.fill();
         c.stroke();
+        c.closePath();
+
+        c.beginPath();
+        c.arc(this.x  - 5, this. y + this.width + 15, 15, 0, 2 * Math.PI);
+        c.fillStyle = "black";
+        c.fill();
+        c.stroke();
+        c.closePath();
+
+        c.beginPath();
+        c.arc(this.x + this.width + 5, this. y + 15, 15, 0, 2 * Math.PI);
+        c.fillStyle = "black";
+        c.fill();
+        c.stroke();
+
+        c.beginPath();
+        c.arc(this.x + this.width + 5, this. y + this.width + 10, 15, 0, 2 * Math.PI);
+        c.fillStyle = "black";
+        c.fill();
+        c.stroke();
+
+
+
       };
 }
 
@@ -76,7 +109,7 @@ class Block{
       };
 }
 
-var player = new Player(400,500);
+var player = new Player(400,450);
 var lines = [];
 var blocks = [];
 var colors = ["red","white"];
