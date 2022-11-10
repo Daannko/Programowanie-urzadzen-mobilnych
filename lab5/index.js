@@ -179,7 +179,9 @@ function update(){
             obj.y = obj.y - dy;
         }
     })
+   
 
+    
     blocks.forEach(e => {
         e.draw();
         e.y = e.y + 5;
