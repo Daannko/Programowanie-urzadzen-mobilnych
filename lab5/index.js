@@ -19,8 +19,27 @@ function check(e) {
                 player.x = player.x + 10;
             break;
         case 32:
+            console.log(bullets);
             bullets.push(new Bullet(player.x + 25,player.y))
     }
+}
+
+class Bullet{
+
+    constructor(x,y){
+        this.x = x;
+        this.y= y;
+        this.speed = 10;
+        this.active = true;
+    }
+
+    draw = () => {
+        c.beginPath();
+        c.arc(this.x, this.y, 10, 0, Math.PI*2);
+        c.fillStyle = "black";
+        c.fill();
+        c.stroke();
+      };
 }
 
 class Car{
@@ -108,6 +127,7 @@ var player = new Car(375,450,"red");
 var lines = [];
 var blocks = [];
 var colors = ["red","white"];
+var bullets =[];
 
 function spawnBlock()
 {
@@ -137,7 +157,13 @@ function drawRoad(){
 
 function update(){
     c.clearRect(0, 0, cvs.width, cvs.height);
+
+
+
     drawRoad();
+
+
+
     lines.forEach(e => {
         e.draw();
         e.y = e.y + 5;
@@ -146,6 +172,14 @@ function update(){
            e.y = -e.height;
         }
     })
+
+    bullets.forEach(obj => {
+        obj.draw();
+        if(obj.active){
+            obj.y = obj.y - dy;
+        }
+    })
+
     blocks.forEach(e => {
         e.draw();
         e.y = e.y + 5;
