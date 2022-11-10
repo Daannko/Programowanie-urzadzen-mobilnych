@@ -20,24 +20,25 @@ function check(e) {
             break;
         case 32:
             console.log(bullets);
-            bullets.push(new Bullet(player.x + 25,player.y,10))
+            bullets.push(new Bullet(player.x + 25,player.y,10,"red"))
     }
 }
 
 class Bullet{
 
-    constructor(x,y,size){
+    constructor(x,y,size,color){
         this.x = x;
         this.y= y;
         this.speed = 10;
         this.active = true;
         this.size = size;
+        this.color = color;
     }
 
     draw = () => {
         c.beginPath();
         c.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        c.fillStyle = "black";
+        c.fillStyle = this.color;
         c.fill();
         c.stroke();
       };
@@ -132,7 +133,7 @@ var bullets =[];
 
 function spawnBlock()
 {
-    blocks.push(new Bullet(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,50));
+    blocks.push(new Bullet(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,50,"black"));
     console.log(blocks);
 }
 
@@ -165,8 +166,6 @@ function drawRoad(){
 
 function update(){
     c.clearRect(0, 0, cvs.width, cvs.height);
-
-
 
     drawRoad();
 
@@ -205,20 +204,45 @@ function update(){
 
     blocks.forEach(e => {
         if(e.active){
+
+            var a = e.x - player.x + 50;
+            var b = e.y - player.y + 50;
+            var c = Math.sqrt( a*a + b*b );
+
+         
+            if((c < 10 + 45)){
+                target.active = false;
+                player.destroyedTargets = player.destroyedTargets + 1;
+                obj.active = false;
+            }
+
+
             e.draw();
             e.y = e.y + 5;
             if(e.y > 600 + e.height)
             {  
                 e.active = false;
             }
+
+           
         }
     })
     blocks = blocks.filter(e => e.active)
 
-    player.draw();
+    if(player.active){
+        player.draw();
+    }
+    else{
+        c.font = '50px serif';
+        c.beginPath();
+        c.fillStyle = "black";
+        c.fillText('Game over',400, 400);
+    }
+
+    
 }
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnBlock,3000)
+setInterval(spawnBlock,1000)
 spawnLines();
