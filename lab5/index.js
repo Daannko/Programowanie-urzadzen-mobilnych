@@ -11,11 +11,11 @@ function check(e) {
     var code = e.keyCode;
     switch (code) {
         case 37: 
-            if(player.x - 1 >= 100)
+            if(player.x - 1 >= 125)
                 player.x = player.x - 10;
             break;
         case 39: 
-            if(player.x + 1 <= cvs.width - 150)
+            if(player.x + 1 <= cvs.width - 175)
                 player.x = player.x + 10;
             break;
         case 32:
@@ -23,23 +23,20 @@ function check(e) {
     }
 }
 
-class Player{
-    constructor(x,y){
+class Car{
+    constructor(x,y,color){
         this.x = x;
         this.y = y;
         this.width = 50;
         this.height = 50;
         this.destroyedTargets = 0;
+        this.color = color
+        this.active = true;
     }
     draw = () => {
-
-
-  
-
-        console.log(player.x+" "+ player.y)
         c.beginPath();
         c.rect(this.x, this.y, 50,75);
-        c.fillStyle = "red";
+        c.fillStyle = this.color;
         c.fill();
         c.stroke();
 
@@ -68,8 +65,6 @@ class Player{
         c.fillStyle = "black";
         c.fill();
         c.stroke();
-
-
 
       };
 }
@@ -109,14 +104,15 @@ class Block{
       };
 }
 
-var player = new Player(400,450);
+var player = new Car(375,450,"red");
 var lines = [];
 var blocks = [];
 var colors = ["red","white"];
 
 function spawnBlock()
 {
-    blocks.push(new Block(Math.floor(Math.random() * 800),Math.floor(Math.random() * 200),"green"));
+    blocks.push(new Car(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,"green"));
+    console.log(blocks);
 }
 
 function spawnLines(){
@@ -147,16 +143,21 @@ function update(){
         e.y = e.y + 5;
         if(e.y > 600 + e.height)
         {
-            e.y = -e.height;
+           e.y = -e.height;
         }
     })
     blocks.forEach(e => {
         e.draw();
+        e.y = e.y + 5;
+        if(e.y > 600 + e.height)
+        {
+            e.active = false;
+        }
     })
     player.draw();
-    console.log(lines);
 }
 
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-spawnLines(spawnBlock,200);
+setInterval(spawnBlock,3000)
+spawnLines();

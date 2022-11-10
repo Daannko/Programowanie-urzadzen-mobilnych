@@ -59,6 +59,23 @@ class Target{
       };
 }
 
+class Bullet{
+
+    constructor(x,y){
+        this.x = x;
+        this.y= y;
+        this.speed = 10;
+        this.active = true;
+    }
+
+    draw = () => {
+        c.beginPath();
+        c.arc(this.x, this.y, 10, 0, Math.PI*2);
+        c.fillStyle = "black";
+        c.fill();
+        c.stroke();
+      };
+}
 
 var player = new Player(0, cvs.height -50 )
 var bullets = [];
