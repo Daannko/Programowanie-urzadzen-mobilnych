@@ -20,22 +20,23 @@ function check(e) {
             break;
         case 32:
             console.log(bullets);
-            bullets.push(new Bullet(player.x + 25,player.y))
+            bullets.push(new Bullet(player.x + 25,player.y,10))
     }
 }
 
 class Bullet{
 
-    constructor(x,y){
+    constructor(x,y,size){
         this.x = x;
         this.y= y;
         this.speed = 10;
         this.active = true;
+        this.size = size;
     }
 
     draw = () => {
         c.beginPath();
-        c.arc(this.x, this.y, 10, 0, Math.PI*2);
+        c.arc(this.x, this.y, this.size, 0, Math.PI*2);
         c.fillStyle = "black";
         c.fill();
         c.stroke();
@@ -131,7 +132,7 @@ var bullets =[];
 
 function spawnBlock()
 {
-    blocks.push(new Car(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,"green"));
+    blocks.push(new Bullet(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,50));
     console.log(blocks);
 }
 
@@ -144,6 +145,13 @@ function spawnLines(){
         lines.push(new Line((cvs.width - 30) / 2,i * 200,100,30 ,"white"));
     }
 }
+
+this.collision = function () {
+               
+                blocks.forEach((e) => {
+                    
+                })
+            }
 
 function drawRoad(){
     c.beginPath();
@@ -162,8 +170,6 @@ function update(){
 
     drawRoad();
 
-
-
     lines.forEach(e => {
         e.draw();
         e.y = e.y + 5;
@@ -176,20 +182,39 @@ function update(){
     bullets.forEach(obj => {
         obj.draw();
         if(obj.active){
+            blocks.forEach(target => {
+
+                var a = obj.x - target.x;
+                var b = obj.y - target.y;
+                var c = Math.sqrt( a*a + b*b );
+
+             
+                if((c < 10 + target.size)){
+                    target.active = false;
+                    player.destroyedTargets = player.destroyedTargets + 1;
+                    console.log("PKT: " + player.destroyedTargets);
+                    obj.active = false;
+                }
+
+            })
             obj.y = obj.y - dy;
         }
     })
-   
+    bullets = bullets.filter(e => e.active)
 
-    
+
     blocks.forEach(e => {
-        e.draw();
-        e.y = e.y + 5;
-        if(e.y > 600 + e.height)
-        {
-            e.active = false;
+        if(e.active){
+            e.draw();
+            e.y = e.y + 5;
+            if(e.y > 600 + e.height)
+            {  
+                e.active = false;
+            }
         }
     })
+    blocks = blocks.filter(e => e.active)
+
     player.draw();
 }
 
