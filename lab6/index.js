@@ -259,4 +259,4 @@ window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
 setInterval(spawnBlock,100 * (15 - dy))
 spawnLines();
- 
+   
