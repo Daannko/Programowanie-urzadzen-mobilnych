@@ -24,7 +24,7 @@ function check(e) {
                 player.y = player.y - 10;
             break;
         case 40: 
-            if(player.y + 1 <= cvs.height)
+            if(player.y + 1 <= cvs.height - player.height - 25)
                 player.y = player.y + 10;
             break;
         case 32:
@@ -161,9 +161,9 @@ function spawnBlock()
 }
 
 function spawnLines(){
-    for(let i = 0 ; i < 33; i++){
-        lines.push(new Line(0,i * 19, 20, 100,colors[(i % 2)]));
-        lines.push(new Line(cvs.width - 100,i * 19, 20, 100,colors[(i % 2)]));
+    for(let i = 0 ; i < 17; i++){
+        lines.push(new Line(0,i * 38, 20, 100,"red"));
+        lines.push(new Line(cvs.width - 100,i * 38, 20, 100,"red"));
     }
     for(let i = 0 ; i < 4; i++){
         lines.push(new Line((cvs.width - 30) / 2,i * 200,100,30 ,"white"));
