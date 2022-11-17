@@ -113,6 +113,21 @@ class Car{
       };
 }
 
+this.collision = function () {
+    this.kx = this.x - this.radius;
+    this.ky = this.y - this.radius;
+    this.kw = this.radius;
+    przeszkody.forEach((przeszkoda) => {
+        if(this.kx + this.kw >= przeszkoda.x && 
+        this.kx <= przeszkoda.x + przeszkoda.w && 
+        this.ky + this.kw >= przeszkoda.y && 
+        this.ky <= przeszkoda.y + przeszkoda.h){
+            bullets = bullets.filter(bullet => bullet.id !== this.id);
+            przeszkody = przeszkody.filter(p => przeszkoda.id !== p.id)
+        }
+    })
+}
+
 class Line{
     constructor(x,y,height,width,color){
         this.x = x;
@@ -220,8 +235,11 @@ function update(){
     bullets = bullets.filter(e => e.active)
 
 
+
     blocks.forEach(e => {
         if(e.active){
+
+
 
             var a = e.x - player.x + 30;
             var b = e.y - player.y + 30;
@@ -244,6 +262,10 @@ function update(){
 
     if(player.active){
         player.draw();
+        c.font = '50px serif';
+        c.beginPath();
+        c.fillStyle = "black";
+        c.fillText('Speed:' + dy,100, 100);
     }
     else{
         c.font = '50px serif';
