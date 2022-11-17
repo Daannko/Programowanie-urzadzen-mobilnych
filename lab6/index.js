@@ -31,11 +31,11 @@ function check(e) {
             console.log(bullets);
             bullets.push(new Bullet(player.x + 25,player.y,10,"red"))
             break;
-        case 87:
+        case 65:
             if(dy + 1 <= speed_limit)
                 dy += 1;
             break;
-        case 83:
+        case 90:
             if(dy - 1 >= 1)
             dy -= 1;
             break;
