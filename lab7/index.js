@@ -86,7 +86,7 @@ var blocks = [];
 
 function spawnBlock()
 {
-    blocks.push(new Bullet(Math.floor(Math.random() *  (280 - 125) + 125) ,-200,50,"black"));
+    blocks.push(new Block(800  ,Math.floor(Math.random() *  (270 - 125) + 125),"yellow"));
     console.log(blocks);
 }
 
@@ -127,7 +127,11 @@ function update(){
         jump ++;
     }
 
-    blocks.f
+    blocks.forEach(e => {
+        e.draw();
+        e.x -= 10;
+        if(e.x < 0) {e.active = false;}
+    })
 
     console.log(jump);
 
@@ -135,6 +139,6 @@ function update(){
 spawnLines();
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnBlock,100 * (15 - dy))
+setInterval(spawnBlock,2000)
 spawnLines();
    
