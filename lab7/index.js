@@ -13,7 +13,8 @@ function check(e) {
     var code = e.keyCode;
     switch (code) {
         case 32:
-            jump = 10;
+            if(jump == 0)
+            jump = 15;
         
         default:
             console.log(code);
@@ -81,10 +82,11 @@ class Block{
 
 var lines = [];
 var player =new Car(300,280,50,20,"red");
+var blocks = [];
 
 function spawnBlock()
 {
-    blocks.push(new Bullet(Math.floor(Math.random() *  (cvs.width - 175 - 125) + 125) ,-200,50,"black"));
+    blocks.push(new Bullet(Math.floor(Math.random() *  (280 - 125) + 125) ,-200,50,"black"));
     console.log(blocks);
 }
 
@@ -115,6 +117,19 @@ function update(){
     })
     player.draw();
 
+    if(jump > 0){
+        player.y -= 10;
+        jump --;
+        if(jump == 0) jump = -15;
+        
+    }else if (jump < 0){
+        player.y += 10;
+        jump ++;
+    }
+
+    blocks.f
+
+    console.log(jump);
 
 }
 spawnLines();
