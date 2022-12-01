@@ -89,7 +89,8 @@ var blocks = [];
 
 function spawnBlock()
 {
-    blocks.push(new Block(800  ,Math.floor(Math.random() *  (270 - 125) + 125),"yellow"));
+    blocks.push(new Block(800  ,270,"yellow"));
+    //Math.floor(Math.random() *  (270 - 125) + 125)
 }
 
 function spawnLines(){
@@ -118,6 +119,10 @@ function update(){
         }
     })
     if(player.active)player.draw();
+    else {
+        c.font = '48px serif';
+        c.strokeText('Game Over', 10, 50);
+    }
 
     if(jump > 0){
         player.y -= 10;
@@ -158,6 +163,6 @@ function update(){
 spawnLines();
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnBlock,2000)
+setInterval(spawnBlock,1500)
 spawnLines();
    
