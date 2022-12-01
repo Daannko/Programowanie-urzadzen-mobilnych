@@ -15,7 +15,11 @@ function check(e) {
         case 32:
             if(jump == 0)
             jump = 15;
-        
+            break;
+        case 82:
+            player.active = true;
+            blocks = [];
+            break;
         default:
            // console.log(code);
     }
@@ -122,6 +126,7 @@ function update(){
     else {
         c.font = '48px serif';
         c.strokeText('Game Over', 10, 50);
+        c.strokeText('Click '+ "r" + " to restart" , 10, 100);
     }
 
     if(jump > 0){
