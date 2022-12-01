@@ -17,7 +17,7 @@ function check(e) {
             jump = 15;
         
         default:
-            console.log(code);
+           // console.log(code);
     }
 }
 
@@ -68,12 +68,15 @@ class Block{
         this.x = x;
         this.y= y;
         this.color = color;
+        this.active = true;
+        this.height = 30;
+        this.width = 30;
 
     }
 
     draw = () => {
         c.beginPath();
-        c.rect(this.x, this.y, 30,30);
+        c.rect(this.x, this.y, this.width,this.height);
         c.fillStyle = this.color;
         c.fill();
         c.stroke();
@@ -81,18 +84,17 @@ class Block{
 }
 
 var lines = [];
-var player =new Car(300,280,50,20,"red");
+var player =new Car(300,280,50,20,"blue");
 var blocks = [];
 
 function spawnBlock()
 {
     blocks.push(new Block(800  ,Math.floor(Math.random() *  (270 - 125) + 125),"yellow"));
-    console.log(blocks);
 }
 
 function spawnLines(){
     for(let i = 0 ; i < 20; i++){
-        lines.push(new Line(i * 50,300, 20, 50,i % 2 == 0 ? "black" : "white"));
+        lines.push(new Line(i * 50,300, 20, 50,i % 2 == 0 ? "red" : "white"));
     }
 }
 
@@ -115,7 +117,7 @@ function update(){
             e.x = 800;
         }
     })
-    player.draw();
+    if(player.active)player.draw();
 
     if(jump > 0){
         player.y -= 10;
@@ -131,9 +133,26 @@ function update(){
         e.draw();
         e.x -= 10;
         if(e.x < 0) {e.active = false;}
-    })
+        
+        if(player.x + player.width >= e.x && 
+            player.x <= e.x + 30 && 
+            player.y + this.height >= e.y && 
+            player.y <= e.y + 30){
 
-    console.log(jump);
+                console.log("lol");
+            }
+
+        if(player.x + player.width >= e.x && 
+            player.x <= e.x + e.width && 
+            player.y + player.height >= e.y && 
+            player.y <= e.y + e.height){
+                console.log("lol");
+                player.active = false;
+            }
+
+    })
+    blocks = blocks.filter( (e) => e.active)
+
 
 }
 spawnLines();
