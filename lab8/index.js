@@ -7,7 +7,7 @@ var dy = 5;
 var speed_limit = 15;
 var jump = 0;
 
-var turn = 0;
+var turn = 1;
 
 function check(e) {
     var code = e.keyCode;
@@ -146,39 +146,32 @@ function spawnStone(canvas, event) {
             var b = gridY - y;
         
             var c = Math.sqrt( a*a + b*b );
-            if(c < 30){
+            if(c < 30 && stones[i][j] == 0){
                 stones[i][j] =  turn % 2 == 0 ? 1 : -1;
                 turn++;
             }
         }
     }
 
-    for(let j = 0; j < 9 ; j ++){
-        for(let i = 0 ; i < 9; i++){
 
-            if(stones[i][j] != 0 ){
-                capture(i,j,stones[i][j]);
-            }
-       
+    }
+
+
+
+function capture(x,y,value){
+
+    class Cord{
+        constructor(x,y){
+            this.x = x;
+            this.y = y;
         }
     }
 
-    }
-
-class Cord{
-    Cord(x,y){
-        this.x = x;
-        this.y = y;
-    }
-}
-
-function capture(x,y,value){
     var enemy = value == -1 ? 1 : -1
     var us = [];
-    us.push(Cord(x,y));
-    var enemiesCords = [];
+    us.push( new Cord(x,y));
 
-    c.forEach( cord => {
+    us.forEach( cord => {
         x = cord.x;
         y = cord.y;
 
@@ -186,10 +179,9 @@ function capture(x,y,value){
             for(let jj = 0; jj < 2 ; jj++){
                 if(ii == x || jj == y) continue;
                 if(stones[x+ ii][y + jj] == enemy){
-                    enemiesCords.push(Cord(x + ii, y + jj));
                 }
                 else if(stones[x + ii][y + jj] == value){
-                    var temp = Cord(x + ii, y +ii)
+                    var temp = new Cord(x + ii, y +ii)
                     if(!us.includes(temp)){
                         us.push(temp);
                     }
