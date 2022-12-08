@@ -7,6 +7,8 @@ var dy = 5;
 var speed_limit = 15;
 var jump = 0;
 
+var i = 0;
+
 function check(e) {
     var code = e.keyCode;
     switch (code) {
@@ -30,12 +32,12 @@ class Stone{
         this.y = y;
         this.radius = radius;
         this.color = color
-        this.active = true;
+        this.active = false;
     }
 
     draw = () => {
         c.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 2 * Math.PI);
+        c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         c.fillStyle = this.color;
         c.fill();
         c.stroke();
@@ -98,6 +100,16 @@ function spawnLines(){
     }
 }
 
+function spawnStones(){
+    for(let j = 0; j < 9 ; j ++){
+        for(let i = 0 ; i < 9; i++){
+            stones.push(new Stone(100 + j * 70, i * 70 + 20, 30,"black"));
+        }
+    }
+}
+
+spawnStones();
+
 function drawBackground(){
     c.beginPath();
     c.rect(0, 0, cvs.width,cvs.height);
@@ -111,9 +123,10 @@ function update(){
 
     drawBackground();
     lines.forEach(e => {
-        e.draw();
+       e.draw();
     })
     stones.forEach(e => {
+        if(e.active)
         e.draw();
     })
  
@@ -123,7 +136,20 @@ function spawnStone(canvas, event) {
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
-    stones.push(new Stone(x,y,20,20,"white"))
+
+    stones.forEach(e => {
+        var a = e.x - x;
+        var b = e.y - y;
+
+        var c = Math.sqrt( a*a + b*b );
+        if(c < 30){
+            if(!e.active){
+                e.color = i % 2 == 0 ? "black" : "white";
+                e.active = true;
+                i++;
+            }
+        }
+    })
     }
 
 let canvasElem = document.querySelector("canvas");
