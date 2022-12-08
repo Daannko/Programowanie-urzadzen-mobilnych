@@ -7,7 +7,7 @@ var dy = 5;
 var speed_limit = 15;
 var jump = 0;
 
-var i = 0;
+var turn = 0;
 
 function check(e) {
     var code = e.keyCode;
@@ -28,11 +28,12 @@ function check(e) {
 
 class Stone{
     constructor(x,y,radius,color){
+        this.value = 0;
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color
-        this.active = false;
+        this.active = true;
     }
 
     draw = () => {
@@ -84,6 +85,8 @@ class Block{
 
 var lines = [];
 var stones = [];
+var stonesInt = Array(9).fill().map(() => Array(9));
+
 
 function spawnBlock()
 {
@@ -100,15 +103,9 @@ function spawnLines(){
     }
 }
 
-function spawnStones(){
-    for(let j = 0; j < 9 ; j ++){
-        for(let i = 0 ; i < 9; i++){
-            stones.push(new Stone(100 + j * 70, i * 70 + 20, 30,"black"));
-        }
-    }
+function detectStone(){
+  
 }
-
-spawnStones();
 
 function drawBackground(){
     c.beginPath();
@@ -136,20 +133,24 @@ function spawnStone(canvas, event) {
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
+    console.log(stonesInt);
 
-    stones.forEach(e => {
-        var a = e.x - x;
-        var b = e.y - y;
+    for(let j = 0; j < 9 ; j ++){
+        for(let i = 0 ; i < 9; i++){
 
-        var c = Math.sqrt( a*a + b*b );
-        if(c < 30){
-            if(!e.active){
-                e.color = i % 2 == 0 ? "black" : "white";
-                e.active = true;
-                i++;
+            var gridX = 100 + j * 70;
+            var gridY = i * 70 + 20;
+            
+            var a = gridX - x;
+            var b = gridY - y;
+        
+            var c = Math.sqrt( a*a + b*b );
+            if(c < 30){
+                stones.push(new Stone(gridX,gridY,30, turn % 2 == 0 ? "black" : "white"))
+                turn++;
             }
         }
-    })
+    }
     }
 
 let canvasElem = document.querySelector("canvas");
