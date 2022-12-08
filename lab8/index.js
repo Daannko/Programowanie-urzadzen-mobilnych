@@ -24,26 +24,21 @@ function check(e) {
 }
 
 
-class Car{
-    constructor(x,y,width,height,color){
+class Stone{
+    constructor(x,y,radius,color){
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.radius = radius;
         this.color = color
         this.active = true;
-        this.jump = 0;
     }
 
     draw = () => {
         c.beginPath();
-        c.rect(this.x, this.y, this.width,this.height);
+        ctx.arc(this.x, this.y, this.radius, 2 * Math.PI);
         c.fillStyle = this.color;
         c.fill();
         c.stroke();
-
-    
-
       };
 }
 
@@ -86,8 +81,7 @@ class Block{
 }
 
 var lines = [];
-var player =new Car(300,280,50,20,"blue");
-var blocks = [];
+var stones = [];
 
 function spawnBlock()
 {
@@ -95,16 +89,19 @@ function spawnBlock()
     //Math.floor(Math.random() *  (270 - 125) + 125)
 }
 
+
+
 function spawnLines(){
-    for(let i = 0 ; i < 20; i++){
-        lines.push(new Line(i * 50,300, 20, 50,i % 2 == 0 ? "red" : "white"));
+    for(let i = 0 ; i < 9; i++){
+        lines.push(new Line(100, i * 70 + 20, 5, 560,"black"));
+        lines.push(new Line(i * 70 + 100, 20 , 565, 5,"black"));
     }
 }
 
 function drawBackground(){
     c.beginPath();
     c.rect(0, 0, cvs.width,cvs.height);
-    c.fillStyle = "green";
+    c.fillStyle = "brown";
     c.fill();
     c.stroke();
 }
@@ -115,57 +112,31 @@ function update(){
     drawBackground();
     lines.forEach(e => {
         e.draw();
-        e.x -= 10;
-        if(e.x == -100){
-            e.x = 800;
-        }
     })
-    if(player.active)player.draw();
-    else {
-        c.font = '48px serif';
-        c.strokeText('Game Over', 10, 50);
-        c.strokeText('Click '+ "r" + " to restart" , 10, 100);
-    }
-
-    if(jump > 0){
-        player.y -= 10;
-        jump --;
-        if(jump == 0) jump = -15;
-        
-    }else if (jump < 0){
-        player.y += 10;
-        jump ++;
-    }
-
-    blocks.forEach(e => {
+    stones.forEach(e => {
         e.draw();
-        e.x -= 10;
-        if(e.x < 0) {e.active = false;}
-        
-        if(player.x + player.width >= e.x && 
-            player.x <= e.x + 30 && 
-            player.y + this.height >= e.y && 
-            player.y <= e.y + 30){
-
-                console.log("lol");
-            }
-
-        if(player.x + player.width >= e.x && 
-            player.x <= e.x + e.width && 
-            player.y + player.height >= e.y && 
-            player.y <= e.y + e.height){
-                console.log("lol");
-                player.active = false;
-            }
-
     })
-    blocks = blocks.filter( (e) => e.active)
-
+ 
 
 }
+function spawnStone(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    stones.push(new Stone(x,y,20,20,"white"))
+    }
+
+let canvasElem = document.querySelector("canvas");
+canvasElem.addEventListener("mousedown", function(e)
+{
+    spawnStone(canvasElem, e);
+});
+
+
+
 spawnLines();
 window.addEventListener('keydown',this.check,false);
 setInterval(update,10)
-setInterval(spawnBlock,1500)
+//setInterval(spawnBlock,1500)
 spawnLines();
    
