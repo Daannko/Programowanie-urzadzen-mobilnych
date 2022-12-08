@@ -37,12 +37,16 @@ class Stone{
     }
 
     draw = () => {
-        c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        c.fillStyle = this.color;
-        c.fill();
-        c.stroke();
+
       };
+}
+
+function drawStone(x,y,r,color){
+    c.beginPath();
+    c.arc(x, y, r, 0, 2 * Math.PI);
+    c.fillStyle = color;
+    c.fill();
+    c.stroke();
 }
 
 class Line{
@@ -84,15 +88,9 @@ class Block{
 }
 
 var lines = [];
-var stones = [];
-var stonesInt = Array(9).fill().map(() => Array(9));
+var stones = Array(9).fill().map(() => Array(9).fill(0));
 
 
-function spawnBlock()
-{
-    blocks.push(new Block(800  ,270,"yellow"));
-    //Math.floor(Math.random() *  (270 - 125) + 125)
-}
 
 
 
@@ -103,9 +101,6 @@ function spawnLines(){
     }
 }
 
-function detectStone(){
-  
-}
 
 function drawBackground(){
     c.beginPath();
@@ -122,10 +117,21 @@ function update(){
     lines.forEach(e => {
        e.draw();
     })
-    stones.forEach(e => {
-        if(e.active)
-        e.draw();
-    })
+
+    for(let j = 0; j < 9 ; j ++){
+        for(let i = 0 ; i < 9; i++){
+
+            var gridX = 100 + j * 70;
+            var gridY = i * 70 + 20;
+            
+            if(stones[i][j] != 0)
+            drawStone(gridX,gridY,30,stones[i][j] == -1 ? "black" : "white")
+
+        }
+    }
+    
+
+
  
 
 }
@@ -133,7 +139,6 @@ function spawnStone(canvas, event) {
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
-    console.log(stonesInt);
 
     for(let j = 0; j < 9 ; j ++){
         for(let i = 0 ; i < 9; i++){
@@ -146,7 +151,7 @@ function spawnStone(canvas, event) {
         
             var c = Math.sqrt( a*a + b*b );
             if(c < 30){
-                stones.push(new Stone(gridX,gridY,30, turn % 2 == 0 ? "black" : "white"))
+                stones[i][j] =  turn % 2 == 0 ? 1 : -1;
                 turn++;
             }
         }
