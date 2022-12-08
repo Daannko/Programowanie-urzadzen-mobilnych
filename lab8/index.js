@@ -129,10 +129,6 @@ function update(){
 
         }
     }
-    
-
-
- 
 
 }
 function spawnStone(canvas, event) {
@@ -157,6 +153,49 @@ function spawnStone(canvas, event) {
         }
     }
     }
+
+class Cord{
+    Cord(x,y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+function capture(x,y,value){
+    var enemy = value == -1 ? 1 : -1
+    var us = [];
+    us.push(Cord(x,y));
+    var enemiesCords = [];
+
+    c.forEach( cord => {
+        x = cord.x;
+        y = cord.y;
+
+        for(let ii = 0; ii < 2; ii ++){
+            for(let jj = 0; jj < 2 ; jj++){
+                if(ii == x || jj == y) continue;
+                if(stones[x+ ii][y + jj] == enemy){
+                    enemiesCords.push(Cord(x + ii, y + jj));
+                }
+                else if(stones[x + ii][y + jj] == value){
+                    var temp = Cord(x + ii, y +ii)
+                    if(!us.includes(temp)){
+                        us.push(temp);
+                    }
+                }
+                else return [];
+            }
+        }
+    })
+    console.log(us);
+    return us;
+
+
+}
+
+function addEnemy(x,y,value){
+
+}
 
 let canvasElem = document.querySelector("canvas");
 canvasElem.addEventListener("mousedown", function(e)
