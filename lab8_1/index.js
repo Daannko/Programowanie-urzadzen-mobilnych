@@ -178,17 +178,37 @@ function capture(x,y,value){
             cx = cord.x;
             cy = cord.y;
     
-            if(stones[cx-1][cy] == value && !us.some(new Cord(cx-1,cy))){
-                us.push(new Cord(cx,cy));
+            let temp = new Cord(cx,cy-1)
+            if(stones[temp.x][temp.y] == value){
+              
+                if(!us.some(e => e.x === temp.x && e.y === temp.y)){
+                    us.push(temp)
+                }
+         
             }
-            if(stones[cx+1][cy] == value && !us.some(new Cord(cx+1,cy))){
-                us.push(new Cord(cx,cy))
+            temp = new Cord(cx,cy+1)
+            if(stones[temp.x][temp.y] == value){
+              
+                if(!us.some(e => e.x === temp.x && e.y === temp.y)){
+                    us.push(temp)
+                }
+         
             }
-            if(stones[cx][cy+1] == value && !us.some(new Cord(cx,cy+1))){
-                us.push(new Cord(cx,cy))
+            temp = new Cord(cx+1,cy)
+            if(stones[temp.x][temp.y] == value){
+              
+                if(!us.some(e => e.x === temp.x && e.y === temp.y)){
+                    us.push(temp)
+                }
+         
             }
-            if(stones[cx][cy-1] == value && !us.some(new Cord(cx,cy-1))){
-                us.push(new Cord(cx,cy))
+            temp = new Cord(cx-1,cy)
+            if(stones[temp.x][temp.y] == value){
+              
+                if(!us.some(e => e.x === temp.x && e.y === temp.y)){
+                    us.push(temp)
+                }
+         
             }
     
             // for(let ii = 0; ii < 2; ii ++){
