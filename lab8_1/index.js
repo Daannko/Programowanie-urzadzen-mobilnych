@@ -156,7 +156,6 @@ function spawnStone(canvas, event) {
                 capture(i ,j-1)
                 if(j + 1 < 9)
                 capture(i ,j+1)
-                capture(i ,j)
             }
         }
      }
@@ -252,7 +251,6 @@ function capture(x,y){
                 del = false;
             }
         }
-         
     )
 
     if(del){
