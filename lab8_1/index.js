@@ -148,10 +148,15 @@ function spawnStone(canvas, event) {
             if(c < 30 && stones[i][j] == 0){
                 stones[i][j] =  turn % 2 == 0 ? 1 : -1;
                 turn++;
+                if(i-1 > 0)
                 capture(i-1 ,j)
+                if(i + 1 < 9)
                 capture(i+1 ,j)
+                if(j - 1 > 0)
                 capture(i ,j-1)
+                if(j + 1 < 9)
                 capture(i ,j+1)
+                capture(i ,j)
             }
         }
      }
@@ -226,29 +231,29 @@ function capture(x,y){
         cx = cord.x;
         cy = cord.y;
 
-        let temp = new Cord(cx,cy-1)
-        if(cy - 1 < 0 || cy + 1 >= 9 || cx -1 < 0 || cx + 1 >= 9){
-            del = false;
-        }
-        if(del){
-            if(stones[temp.x][temp.y] == 0){
+            let temp = new Cord(cx,cy-1)
+            if(cy -1 < 0){}
+            else if(stones[temp.x][temp.y] == 0){
                 del = false;
             }
             temp = new Cord(cx,cy+1)
-            if(stones[temp.x][temp.y] == 0){
+            if(cy + 1 > 8){}
+            else if(stones[temp.x][temp.y] == 0){
                 del = false;
             }
             temp = new Cord(cx+1,cy)
-            if(stones[temp.x][temp.y] == 0){
+            if(cx + 1 > 8){}
+            else if(stones[temp.x][temp.y] == 0){
                 del = false;
             }
             temp = new Cord(cx-1,cy)
-            if(stones[temp.x][temp.y] == 0){
+            if(cx - 1 < 0){}
+            else if(stones[temp.x][temp.y] == 0){
                 del = false;
             }
         }
        
-    })
+    )
 
     if(del){
         us.forEach( cord => {
