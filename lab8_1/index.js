@@ -147,10 +147,11 @@ function spawnStone(canvas, event) {
             var c = Math.sqrt( a*a + b*b );
             if(c < 30 && stones[i][j] == 0){
                 stones[i][j] =  turn % 2 == 0 ? 1 : -1;
-                capture(i,j,stones[i][j])
-
                 turn++;
-
+                capture(i-1 ,j)
+                capture(i+1 ,j)
+                capture(i ,j-1)
+                capture(i ,j+1)
             }
         }
      }
@@ -159,7 +160,7 @@ function spawnStone(canvas, event) {
 
 
 
-function capture(x,y,value){
+function capture(x,y){
 
     class Cord{
         constructor(x,y){
@@ -168,7 +169,9 @@ function capture(x,y,value){
         }
     }
 
-    var enemy = value === -1 ? 1 : -1
+    if(stones[x][y] == 0) return;
+
+    var value  = stones[x][y];
     var us = [];
     us.push( new Cord(x,y));
     let uslength = 0;
@@ -179,6 +182,7 @@ function capture(x,y,value){
             cy = cord.y;
     
             let temp = new Cord(cx,cy-1)
+            if(cy - 1 > 0)
             if(stones[temp.x][temp.y] == value){
               
                 if(!us.some(e => e.x === temp.x && e.y === temp.y)){
@@ -187,6 +191,7 @@ function capture(x,y,value){
          
             }
             temp = new Cord(cx,cy+1)
+            if(cy + 1 < 9)
             if(stones[temp.x][temp.y] == value){
               
                 if(!us.some(e => e.x === temp.x && e.y === temp.y)){
@@ -195,6 +200,7 @@ function capture(x,y,value){
          
             }
             temp = new Cord(cx+1,cy)
+            if(cx+1 < 9)
             if(stones[temp.x][temp.y] == value){
               
                 if(!us.some(e => e.x === temp.x && e.y === temp.y)){
@@ -203,6 +209,7 @@ function capture(x,y,value){
          
             }
             temp = new Cord(cx-1,cy)
+            if(cx-1 > 0)
             if(stones[temp.x][temp.y] == value){
               
                 if(!us.some(e => e.x === temp.x && e.y === temp.y)){
@@ -210,29 +217,45 @@ function capture(x,y,value){
                 }
          
             }
-    
-            // for(let ii = 0; ii < 2; ii ++){
-            //     for(let jj = 0; jj < 2 ; jj++){
-            //         if(ii == x || jj == y) continue;
-            //         if(stones[x+ ii][y + jj] == enemy){
-            //         }
-            //         else if(stones[x + ii][y + jj] == value){
-            //             var temp = new Cord(x + ii, y +ii)
-            //             if(!us.includes(temp)){
-            //                 us.push(temp);
-            //             }
-            //         }
-            //         else return [];
-            //     }
-            // }
         })
        
     }
-   
+
+    let del = true;
+    us.forEach( cord => {
+        cx = cord.x;
+        cy = cord.y;
+
+        let temp = new Cord(cx,cy-1)
+        if(cy - 1 < 0 || cy + 1 >= 9 || cx -1 < 0 || cx + 1 >= 9){
+            del = false;
+        }
+        if(del){
+            if(stones[temp.x][temp.y] == 0){
+                del = false;
+            }
+            temp = new Cord(cx,cy+1)
+            if(stones[temp.x][temp.y] == 0){
+                del = false;
+            }
+            temp = new Cord(cx+1,cy)
+            if(stones[temp.x][temp.y] == 0){
+                del = false;
+            }
+            temp = new Cord(cx-1,cy)
+            if(stones[temp.x][temp.y] == 0){
+                del = false;
+            }
+        }
+       
+    })
+
+    if(del){
+        us.forEach( cord => {
+            stones[cord.x][cord.y] = 0;
+        })
+    }
     console.log(us);
-    return us;
-
-
 }
 
 let canvasElem = document.querySelector("canvas");
