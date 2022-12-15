@@ -252,7 +252,7 @@ function capture(x,y){
                 del = false;
             }
         }
-       
+         
     )
 
     if(del){
